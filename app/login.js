@@ -1,44 +1,30 @@
-import { View, Text, StyleSheet,Image, TextInput,Icon,ScrollView,Modal } from 'react-native'
+import { View, Text, StyleSheet,Image, TextInput,ScrollView,Alert} from 'react-native'
 import Button from '../components/Button';
 import React,{useState} from 'react'
-import { FontAwesome } from '@expo/vector-icons';
-// function LoginPage() {
-
-//   return (
-
-//   );
-// }
+import { router } from 'expo-router';
 
 export default function Login() {
-    const inputRef = React.useRef(null);
+    // const inputRef = React.useRef(null);
     const [username,setUserName] = useState('');
-    const [Password,setPassword] = useState(null);
-    const [loading,setLoading] = useState(false);
+    const [Password,setPassword] = useState('');
+    // const [loading,setLoading] = useState(false);
     // const navigation = useNavigation();
     const handleLogin=()=>{
     // Basic validation
     if (!username || !Password) {
-      // Alert.alert('Error', 'Please enter both username/email and password');
-    //   navigation.navigate('Home');
+      Alert.alert('Error', 'Please enter both username/email and password');
+      router.replace('/user/')
 
       return;
     }
-
-    // Set loading to true to show loading indicator
-    setLoading(true);
-
-    // Simulate authentication (replace with your actual authentication logic)
-    setTimeout(() => { // Simulating asynchronous login process
       if (username === 'user' && Password === 'password') {
         // Navigate to the authenticated screen (replace 'AuthenticatedScreen' with your screen name)
-        // navigation.navigate('Home');
+        router.replace('/user/')
       } else {
         // Show error message for invalid credentials
         Alert.alert('Error', 'Invalid username/email or password');
       }
-      // Reset loading status after login attempt
-      setLoading(false);
-    }, 2000);
+
 
     }
     const handleInputUser=(text)=>{
