@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet,Image, TextInput,ScrollView,Alert} from 'react-native'
 import Button from '../components/Button';
 import React,{useState} from 'react'
-import { router } from 'expo-router';
+import { router ,Redirect} from 'expo-router';
 
 export default function Login() {
     // const inputRef = React.useRef(null);
@@ -19,7 +19,7 @@ export default function Login() {
     }
       if (username === 'user' && Password === 'password') {
         // Navigate to the authenticated screen (replace 'AuthenticatedScreen' with your screen name)
-        router.replace('/user/')
+        router.push('/user/')
       } else {
         // Show error message for invalid credentials
         Alert.alert('Error', 'Invalid username/email or password');

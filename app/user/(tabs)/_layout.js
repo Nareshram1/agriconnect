@@ -13,6 +13,14 @@ export default function TabLayout() {
           headerShown: false
         }}
       />
+            <Tabs.Screen
+        name="hire"
+        options={{
+          title: 'Hire',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-plus" color={color} />,
+          headerShown: false
+        }}
+      />
       <Tabs.Screen
         name="profile"
         options={{
@@ -21,6 +29,7 @@ export default function TabLayout() {
           headerShown: false
         }}
       />
+
     </Tabs>
   );
 }

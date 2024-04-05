@@ -1,12 +1,21 @@
-import { View, Text, StyleSheet, Image, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
+// import { Tabs } from 'expo-router';
+import { router } from 'expo-router';
+
 
 export default function Home() {
+  const handleCardClick=(text)=>{
+    if(text==='hire')
+    router.replace('/user/'+ text)
+    else
+    router.push('/user/screens/'+ text);
+  }
   return (
     <View style={styles.container}>
       {/* <Text>User</Text> */}
-      
+
       <View>
             <LinearGradient
             colors={['#ffffff','#ffe8cb']}
@@ -34,6 +43,34 @@ export default function Home() {
               </View>
             </LinearGradient>
             
+                    {/*  Tasks list */}
+        <View style={styles.buy}>
+          {/* 4 items */}
+                  {/* Top Row */}
+      <View style={styles.row}>
+        <Pressable style={styles.card} onPress={()=>handleCardClick("machinery")}>
+          <Image source={require('../../../assets/images/machinery.png')} alt='machinery' style={styles.image} />
+          <Text style={styles.text}>Machinery</Text>
+        </Pressable>
+        <Pressable style={styles.card} onPress={()=>handleCardClick("saplings")}>
+          <Image source={require('../../../assets/images/saplings.png')} alt='saplings' style={styles.image} />
+          <Text style={styles.text}>Saplings</Text>
+        </Pressable>
+      </View>
+
+      {/* Bottom Row */}
+      <View style={styles.row}>
+        <Pressable style={styles.card} onPress={()=>handleCardClick('hire')}>
+          <Image source={require('../../../assets/images/hire.png')} alt='hire' style={styles.image} />
+          <Text style={styles.text}>Hire people</Text>
+        </Pressable>
+        <Pressable style={styles.card} onPress={()=>handleCardClick("fertilizers")}>
+          <Image source={require('../../../assets/images/fertilizers.png')} alt='fertilizers' style={styles.image} />
+          <Text style={styles.text}>Fertilizers</Text>
+        </Pressable>
+      </View>
+        </View>
+
         </View>
     </View>
   )
