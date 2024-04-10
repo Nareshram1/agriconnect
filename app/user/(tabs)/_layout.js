@@ -22,6 +22,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="job"
+        options={{
+          title: 'Post job',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
+          headerShown: false
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',

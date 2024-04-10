@@ -1,29 +1,55 @@
-import { View, Text, StyleSheet,Image, TextInput,ScrollView,Alert} from 'react-native'
+import { View, Text, StyleSheet,Image, TextInput,ScrollView,Alert,Pressable,ActivityIndicator} from 'react-native'
 import Button from '../components/Button';
-import React,{useState} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import { router ,Redirect} from 'expo-router';
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { LoadingContext } from './LoadingContext';
+// import LoadingIndicator from '../components/LoadingIndicator'
 export default function Login() {
     // const inputRef = React.useRef(null);
-    const [username,setUserName] = useState('');
+    const [pmail,setUserName] = useState('');
     const [Password,setPassword] = useState('');
-    // const [loading,setLoading] = useState(false);
-    // const navigation = useNavigation();
-    const handleLogin=()=>{
+    const [loading,setLoading] = useState(false)
+    // const { isLoading, startLoading, stopLoading } = useContext(LoadingContext);
+    useEffect(() => {
+      async function  getData(){
+       const d = await AsyncStorage.getItem("UserToken") 
+      if (d != null){
+        Alert.alert("Already Logged in");
+        router.replace('/user')
+        }
+      }
+      getData();
+    }, [])
+    
+    const handleLogin=async()=>{
     // Basic validation
-    if (!username || !Password) {
+    if (!pmail || !Password) {
       Alert.alert('Error', 'Please enter both username/email and password');
       router.replace('/user/')
 
       return;
     }
-      if (username === 'user' && Password === 'password') {
-        // Navigate to the authenticated screen (replace 'AuthenticatedScreen' with your screen name)
-        router.push('/user/')
-      } else {
-        // Show error message for invalid credentials
-        Alert.alert('Error', 'Invalid username/email or password');
-      }
+    // check login
+    try {  
+      setLoading(true) 
+      await axios.post('https://agriconnect-api.onrender.com/login', {
+        pmail: pmail,
+        password: Password
+      });
+      await AsyncStorage.setItem("UserToken", JSON.stringify({"pmail": pmail}));
+      Alert.alert('Login successful');
+      // Redirect 
+      router.replace('/user/')
+      
+    } catch (error) {
+      Alert.alert('Error', error.message);
+      // stopLoading()
+    }
+    finally{
+      setLoading(false)
+    }
 
 
     }
@@ -32,6 +58,7 @@ export default function Login() {
     }
   return (
     <View style={styles.container}>
+
     <ScrollView keyboardShouldPersistTaps={'handled'}>
     <View>
         <Image source={require('../assets/images/farmlogo.png')} 
@@ -43,16 +70,19 @@ export default function Login() {
       <View style={styles.Middle}>
         <Text style={styles.LoginText}>Login</Text>
       </View>
-
+      <View style={styles.text2}>
+        <Text>Don't have an account? </Text>
+        <Pressable onPress={() => router.push('/signup')} ><Text style={styles.signupText}> Sign up</Text></Pressable>
+      </View>
       {/*  */}
 
       <View style={styles.buttonStyle}>
         
         <View style={styles.emailInput}>
         <TextInput
-        placeholder='Email Address'
+        placeholder='Email Address/phone'
         style={styles.input}
-        value={username}
+        value={pmail}
         onChangeText={handleInputUser}
       />
         </View>
@@ -74,13 +104,15 @@ export default function Login() {
       <View style={styles.buttonStyle}>
       <Button
         onPress={handleLogin}
-        // disabled={loading}
+        disabled={loading}
         // text={loading ? 'Signing in...' : 'Sign in'}
         text='Login'
       />
     </View>
 
     </ScrollView>
+    {loading && <ActivityIndicator size="large" />}
+    {/* <ActivityIndicator /> */}
   </View>
   )
 }

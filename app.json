@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "agricon",
-    "slug": "agricon",
-    "version": "1.0.0",
+    "name": "agriconnnect",
+    "slug": "agriconnnect",
+    "version": "1.6.9",
     "orientation": "portrait",
     "icon": "./assets/images/icon1.png",
     "scheme": "myapp",
@@ -31,8 +31,15 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
       "expo-router"
     ],
+    
     "experiments": {
       "typedRoutes": true
     },
